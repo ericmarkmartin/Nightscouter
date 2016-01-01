@@ -265,8 +265,11 @@ extension WatchSessionManager {
                     if let sgvValue = entry.sgv {
                         
                         // Convert units.
-                        var boundedColor = configuration.boundedColorForGlucoseValue(sgvValue.sgv)
-                        if configuration.displayUnits == .Mmol {
+                        var boundedColor : DesiredColorState
+                        switch configuration.displayUnits {
+                        case .Mmol:
+                            boundedColor = configuration.boundedColorForGlucoseValue(sgvValue.sgv.toMmol)
+                        case .Mgdl:
                             boundedColor = configuration.boundedColorForGlucoseValue(sgvValue.sgv.toMgdl)
                         }
                         
@@ -281,7 +284,7 @@ extension WatchSessionManager {
                         let raw  =  "??"
                         let rawShort  = "??"
 
-                        cmodels.append( ComplicationModel(displayName: displayName, date: entry.date, sgv: sgvStringWithEmoji, sgvEmoji: sgvEmoji, tintString: sgvColor.toHexString(), delta: deltaString, deltaShort: deltaStringShort, raw: raw, rawShort: rawShort).dictionary)                        
+                        cmodels.append( ComplicationModel(displayName: displayName, date: entry.date, sgv: sgvStringWithEmoji, sgvEmoji: sgvEmoji, tintString: sgvColor.toHexString(), delta: deltaString, deltaShort: deltaStringShort, raw: raw, rawShort: rawShort).dictionary)
                     }
                 }
                 
