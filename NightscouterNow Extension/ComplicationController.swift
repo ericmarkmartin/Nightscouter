@@ -199,6 +199,8 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             print(">>> Entering \(__FUNCTION__) <<<")
         #endif
         
+        print(requestedUpdateDate)
+        
         handler(requestedUpdateDate);
     }
     

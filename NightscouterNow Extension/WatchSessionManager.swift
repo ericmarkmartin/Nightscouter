@@ -255,21 +255,14 @@ extension WatchSessionManager {
             
             loadDataFor(site, index: nil, withChart: true, completetion: { (returnedModel, returnedSite, returnedIndex, returnedError) -> Void in
                 
-                
-                
                 guard let configuration = returnedSite?.configuration, displayName = returnedSite?.configuration?.displayName, entries = returnedSite?.entries else {
                     return
                 }
-                
-                
-                
                 
                 var cmodels: [[String: AnyObject]] = []
                 for entry in entries {
                     
                     if let sgvValue = entry.sgv {
-                        
-                        
                         
                         // Convert units.
                         var boundedColor = configuration.boundedColorForGlucoseValue(sgvValue.sgv)
@@ -288,12 +281,9 @@ extension WatchSessionManager {
                         let raw  =  "??"
                         let rawShort  = "??"
 
-                        cmodels.append( ComplicationModel(displayName: displayName, date: entry.date, sgv: sgvStringWithEmoji, sgvEmoji: sgvEmoji, tintString: sgvColor.toHexString(), delta: deltaString, deltaShort: deltaStringShort, raw: raw, rawShort: rawShort).dictionary)
-                        
+                        cmodels.append( ComplicationModel(displayName: displayName, date: entry.date, sgv: sgvStringWithEmoji, sgvEmoji: sgvEmoji, tintString: sgvColor.toHexString(), delta: deltaString, deltaShort: deltaStringShort, raw: raw, rawShort: rawShort).dictionary)                        
                     }
-                    
                 }
-                
                 
                 self.sharedDefaults?.setObject(cmodels, forKey: "cModels")
                 self.sharedDefaults?.synchronize()
@@ -310,11 +300,16 @@ extension WatchSessionManager {
             var cModels = [ComplicationModel]()
             for d in dicts {
             
-                guard let displayName = d["displayName"] as? String, sgv = d["sgv"] as? String, date = d["date"] as? NSDate, sgvEmoji = d["sgvEmoji"] as? String, tintString = d["tintString"] as? String, delta = d["delta"] as? String, deltaShort = d["deltaShort"] as? String else {
+                guard let displayName = d["displayName"] as? String, sgv = d["sgv"] as? String,
+                    date = d["date"] as? NSDate, sgvEmoji = d["sgvEmoji"] as? String,
+                    tintString = d["tintString"] as? String, delta = d["delta"] as? String,
+                    deltaShort = d["deltaShort"] as? String else {
                     return nil
                 }
 
-                cModels.append(ComplicationModel(displayName: displayName, date: date, sgv: sgv, sgvEmoji: sgvEmoji, tintString: tintString, delta: delta, deltaShort: deltaShort, raw: nil, rawShort: nil))
+                cModels.append(ComplicationModel(displayName: displayName, date: date, sgv: sgv,
+                    sgvEmoji: sgvEmoji, tintString: tintString, delta: delta, deltaShort: deltaShort,
+                    raw: nil, rawShort: nil))
             }
             return cModels
         }
